@@ -7,10 +7,10 @@ module.exports = class UserController {
     static async createUser(req, res) {
         const user = req.body
 
-        const validation = await UserValidations.fieldsValidation(user)
+        const validation = await UserValidations.registerValidation(user)
 
-        if (!validation.valid) {
-            return res.status(422).json({ message: validation.message })
+        if (!validation.isValid) {
+            return res.status(validation.statusCode).json({ message: validation.message })
         }
 
         const encryptedPassword = await createEncryptedPassword(user.password)
@@ -26,5 +26,18 @@ module.exports = class UserController {
         const token = createUserToken(newUser)
 
         return res.json({ message: "user created successfully!", newUser, token })
+    }
+
+    static async loginUser(req, res) {
+        const user = req.body
+        const validation = await UserValidations.loginValidation(user)
+
+        if (!validation.isValid) {
+            return res.status(validation.statusCode).json({ message: validation.message })
+        }
+
+        const token = createUserToken(user)
+
+        return res.json({ message: "user loged successfully!", token })
     }
 }
