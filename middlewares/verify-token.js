@@ -6,7 +6,7 @@ function verifyToken(req, res, next) {
     const token = getTokenFromHeader(req)
 
     if (!token) {
-        return res.status(401).json({ message: "access dined" })
+        return res.status(401).json({ message: "access denied" })
     }
 
     try {
@@ -15,7 +15,7 @@ function verifyToken(req, res, next) {
         next()
     }
     catch (error) {
-        return res.status(401).json({ message: "access dined" })
+        return res.status(401).json({ message: "access denied" })
     }
 }
 
