@@ -41,7 +41,7 @@ module.exports = class UserValidations {
         const userInDb = await User.findOne({ where: { email: user.email } })
 
         if (!userInDb) {
-            return { message: "user not exists",statusCode: 422 , isValid: false }
+            return { message: "email or passsword incorrect",statusCode: 401, isValid: false }
         }
 
         const checkPassword = await bcrypt.compare(user.password, userInDb.password)
