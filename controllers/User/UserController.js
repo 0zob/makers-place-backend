@@ -40,4 +40,15 @@ module.exports = class UserController {
 
         return res.json({ message: "user loged successfully!", token })
     }
+
+    static async getUserById(req, res) {
+        const userId = req.params.id
+        const user = await User.findOne({ where: { id: userId }, attributes: { exclude: "password" } })
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" })
+        }
+
+        return res.json({ message: "user retrieved successfully!", user })
+    }
 }
